@@ -1,105 +1,47 @@
-//W tym kodzie zajdą zmiany
-#include <iostream>
-#include <string>
+def calfp(frates, fac_rate):
+    # Weight Factors
+    wt_factors = [
+        [3, 4, 6],
+        [4, 5, 7],
+        [3, 4, 6],
+        [7, 10, 15],
+        [5, 7, 10]
+    ]
 
-using namespace std;
+    ufp = 0
 
-// Function to calculate Function Point
-void calfp(int frates[][3], int fac_rate)
-{
+    # Calculating UFP (Unadjusted Function Point)
+    for i in range(5):
+        for j in range(3):
+            freq = frates[i][j]
+            ufp += freq * wt_factors[i][j]
 
-    // Function Units
-    string funUnits[5] = {
-        "External Inputs",
-        "External Outputs",
-        "External Inquiries",
-        "Internal Logical Files",
-        "External Interface Files"
-    };
+    # Sum of 14 factors
+    sum_f = 14 * fac_rate
 
-    // Weight Rates
-    string wtRates[3] = { "Low", "Average", "High" };
+    # Calculate CAF
+    caf = 0.65 + 0.01 * sum_f
 
-    // Weight Factors
-    int wtFactors[5][3] = {
-        { 3, 4, 6 },
-        { 4, 5, 7 },
-        { 3, 4, 6 },
-        { 7, 10, 15 },
-        { 5, 7, 10 },
-    };
+    # Calculate Function Point (FP)
+    fp = ufp * caf
 
-    int UFP = 0;
+    # Output Values
+    print("Function Point Analysis :-")
+    print(f"Unadjusted Function Points (UFP): {ufp}")
+    print(f"Complexity Adjustment Factor (CAF): {caf}")
+    print(f"Function Points (FP): {fp}")
 
-    // Calculating UFP (Unadjusted Function Point)
-    for (int i = 0; i < 5; i++) {
 
-        for (int j = 0; j < 3; j++) {
+# Driver code
+if __name__ == "__main__":
+    frates = [
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 3, 0],
+        [0, 1, 0],
+        [0, 3, 0]
+    ]
 
-            int freq = frates[i][j];
+    fac_rate = 2
 
-            UFP += freq * wtFactors[i][j];
-        }
-    }
-
-    // 14 factors
-    string aspects[14] = {
-        "reliable backup and recovery required ?",
-        "data communication required ?",
-        "are there distributed processing functions ?",
-        "is performance critical ?",
-        "will the system run in an existing heavily utilized operational environment ?",
-        "on line data entry required ?",
-        "does the on line data entry require the input transaction to be built over multiple screens or operations ?",
-        "are the master files updated on line ?",
-        "is the inputs, outputs, files or inquiries complex ?",
-        "is the internal processing complex ?",
-        "is the code designed to be reusable ?",
-        "are the conversion and installation included in the design ?",
-        "is the system designed for multiple installations in different organizations ?",
-        "is the application designed to facilitate change and ease of use by the user ?"
-    };
-
-    int sumF = 0;
-
-    // Taking Input of factors rate
-    for (int i = 0; i < 14; i++) {
-
-        int rate = fac_rate;
-
-        sumF += rate;
-    }
-
-    // Calculate CFP
-    double CAF = 0.65 + 0.01 * sumF;
-
-    // Calculate Function Point (FP)
-    double FP = UFP * CAF;
-
-    // Output Values
-    cout << "Function Point Analysis :-" << endl;
-
-    cout << "Unadjusted Function Points (UFP) : " << UFP << endl;
-
-    cout << "Complexity Adjustment Factor (CAF) : " << CAF << endl;
-
-    cout << "Function Points (FP) : " << FP << endl;
-}
-
-// driver function
-int main()
-{
-    int frates[5][3] = {
-        { 0, 1, 0 },
-        { 0, 1, 0 },
-        { 0, 3, 0 },
-        { 0, 1, 0 },
-        { 0, 3, 0 }
-    };
-
-    int fac_rate = 2;
-
-    calfp(frates, fac_rate);
-
-    return 0;
-}
+    calfp(frates, fac_rate)
